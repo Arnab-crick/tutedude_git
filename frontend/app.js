@@ -16,11 +16,13 @@ app.listen(PORT, () => {
 
 const payload = {
   itemId: document.getElementById("itemId").value,
-<<<<<<< HEAD
+
   itemUuid: document.getElementById("itemUuid").value,
   itemHash: document.getElementById("itemHash").value,
-=======
->>>>>>> 592f449 (Add Item UUID field to To-Do form)
+
+  itemUuid: document.getElementById("itemUuid").value,
+  itemHash: document.getElementById("itemHash").value,
+
   itemName: document.getElementById("itemName").value,
   itemDescription: document.getElementById("itemDescription").value,
 };
