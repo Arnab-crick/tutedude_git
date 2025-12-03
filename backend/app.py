@@ -8,6 +8,7 @@ MONGO_URI = os.getenv("MONGO_URI")
 client = pymongo.MongoClient(MONGO_URI)
 db = client.test
 collection = db['flask-tutorial']
+todos_collection = db["todo"]
 
 
 
@@ -34,5 +35,28 @@ def view():
         'data': data
     }
     return jsonify(data)
+@app.route("/submittodoitem", methods=["POST"])
+def submit_todo_item():
+    # Accept JSON or form
+    data = request.get_json() or request.form
+
+    item_name = data.get("itemName")
+    item_description = data.get("itemDescription")
+
+    if not item_name or not item_description:
+        return jsonify({"message": "itemName and itemDescription are required"}), 400
+
+    todo_doc = {
+        "itemName": item_name,
+        "itemDescription": item_description,
+    }
+
+    result = todos_collection.insert_one(todo_doc)
+
+    return jsonify({
+        "message": "To-Do item stored successfully",
+        "id": str(result.inserted_id)
+    }), 201
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=9000,debug=True)
